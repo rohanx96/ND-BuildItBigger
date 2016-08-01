@@ -10,6 +10,8 @@ android {
         targetSdkVersion 22
         versionCode 1
         versionName "1.0"
+        multiDexEnabled true
+
     }
     buildTypes {
         release {
@@ -21,9 +23,12 @@ android {
 
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
-    compile 'com.android.support:appcompat-v7:23.3.0'
     // Added for AdMob
-    compile 'com.google.android.gms:play-services:8.4.0'
     compile project(':joketellerlib')
     compile project(':jokeactivitylib')
+    compile 'com.android.support:appcompat-v7:23.3.0'
+    compile 'com.google.android.gms:play-services:8.4.0'
+    compile project(path: ':joketellerbackend', configuration: 'android-endpoints')
+    compile 'com.android.support:multidex:1.0.1'
+
 }
