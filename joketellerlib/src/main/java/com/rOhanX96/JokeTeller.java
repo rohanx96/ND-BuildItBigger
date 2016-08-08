@@ -1,52 +1,28 @@
 package com.rOhanX96;
 
-import com.google.api.client.extensions.android.http.AndroidHttp;
-import com.google.api.client.extensions.android.json.AndroidJsonFactory;
-import com.google.api.client.googleapis.services.AbstractGoogleClientRequest;
-import com.google.api.client.googleapis.services.GoogleClientRequestInitializer;
-import com.rohanx96.joketellerbackend.myApi.MyApi;
-
-import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Random;
 
 public class JokeTeller {
-    private static MyApi myApiService = null;
-    private static String joke = "default";
-    public static String tellJoke(){
+    public static ArrayList<String> jokes = new ArrayList<>();
+
+    static {
+        jokes.add("Doctor: \"I'm sorry but you suffer from a terminal illness and have only 10 to live.\"\n" +
+                "Patient: \"What do you mean, 10? 10 what? Months? Weeks?!\"\n" +
+                "Doctor: \"Nine.\"\n");
+        jokes.add("Mother, “How was school today, Patrick?”\n" +
+                "Patrick, “It was really great mum! Today we made explosives!”\n" +
+                "Mother, “Ooh, they do very fancy stuff with you these days. And what will you do at school tomorrow?”\n" +
+                "Patrick, “What school?”");
+        jokes.add("I'd like to buy a new boomerang please. Also, can you tell me how to throw the old one away?\n");
+        jokes.add("Pessimist: \"Things just can't get any worse!\"\n" +
+                "Optimist: \"Nah, of course they can!\"\n");
+        jokes.add("A naked women robbed a bank. Nobody could remember her face.\n");
+    }
+
+    public static String tellJoke() {
+        Random random = new Random();
+        return (jokes.get(random.nextInt(jokes.size())));
         //Log.i("endpoints ", " backgound");
-        Thread thread = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                if(myApiService == null) {  // Only do this once
-                    //Log.i("endpoints ", " initApi");
-                    MyApi.Builder builder = new MyApi.Builder(AndroidHttp.newCompatibleTransport(), new AndroidJsonFactory(), null)
-                            // options for running against local devappserver
-                            // - 10.0.2.2 is localhost's IP address in Android emulator
-                            // - turn off compression when running against local devappserver
-                            .setRootUrl("http://10.100.90.21:8080/_ah/api/")
-                            .setGoogleClientRequestInitializer(new GoogleClientRequestInitializer() {
-                                @Override
-                                public void initialize(AbstractGoogleClientRequest<?> abstractGoogleClientRequest) throws IOException {
-                                    abstractGoogleClientRequest.setDisableGZipContent(true);
-                                }
-                            });
-                    // end options for devappserver
-
-                    myApiService = builder.build();
-                }
-
-                try {
-                    joke =  myApiService.tellJoke().execute().getData();
-                } catch (IOException e) {
-                    joke =  e.getMessage();
-                }
-            }
-        });
-        thread.start();
-        try {
-            thread.join();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        return joke;
     }
 }
