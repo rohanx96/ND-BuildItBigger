@@ -19,6 +19,17 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+    productFlavors{
+        paid{
+            applicationIdSuffix 'pro'
+        }
+        free {
+            applicationIdSuffix 'lite'
+            dependencies {
+                compile 'com.google.android.gms:play-services:8.4.0'
+            }
+        }
+    }
 }
 
 dependencies {
@@ -26,7 +37,6 @@ dependencies {
     // Added for AdMob
     compile project(':jokeactivitylib')
     compile 'com.android.support:appcompat-v7:23.3.0'
-    compile 'com.google.android.gms:play-services:8.4.0'
     compile project(path: ':joketellerbackend', configuration: 'android-endpoints')
     compile 'com.android.support:multidex:1.0.1'
 
