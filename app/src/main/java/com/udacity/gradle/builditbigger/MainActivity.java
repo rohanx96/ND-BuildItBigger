@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -66,16 +65,21 @@ class EndpointsAsyncTask extends AsyncTask<Void, Void, String> {
     private static MyApi myApiService = null;
     private Context context;
     ProgressDialog dialog;
+
+    //ProgressBar progressBar;
     public EndpointsAsyncTask(Context context) {
         super();
         this.context = context;
+        //this.progressBar = bar;
     }
 
     @Override
     protected void onPreExecute() {
         super.onPreExecute();
+        //progressBar.setVisibility(View.VISIBLE);
         dialog = new ProgressDialog(context);
         dialog.setIndeterminate(true);
+        dialog.setCancelable(false);
         dialog.setMessage("Loading Joke");
         dialog.show();
     }
@@ -112,11 +116,11 @@ class EndpointsAsyncTask extends AsyncTask<Void, Void, String> {
     protected void onPostExecute(String s) {
         super.onPostExecute(s);
         dialog.hide();
+        //progressBar.setVisibility(View.GONE);
         Intent jokeTeller = new Intent(context, JokeTellerActivity.class);
         jokeTeller.putExtra(JokeTellerActivity.INTENT_EXTRA_JOKE, s);
         //Log.i("Joke: ", s);
         context.startActivity(jokeTeller);
     }
-
 }
 
