@@ -17,3 +17,13 @@ allprojects {
         jcenter()
     }
 }
+
+task customTask( dependsOn: [
+        ":joketellerbackend:appengineRun",
+        ":app:connectedAndroidTest",
+        ":joketellerbackend:appengineStop"
+        ]) {
+    doLast{
+        println("Completed custom task")
+    }
+}
